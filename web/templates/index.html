@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Monitor</title>
+</head>
+<body>
+    <h1>Product Monitor</h1>
+    <div id="products"></div>
+
+    <script>
+        async function fetchData() {
+            const response = await fetch('/products');
+            const data = await response.json();
+            const productsDiv = document.getElementById('products');
+            productsDiv.innerHTML = '';
+            for (const product of data) {
+                productsDiv.innerHTML += `
+                    <div>
+                        <h2>${product.details.name}</h2>
+                        <p>Price: €${product.details.price}</p>
+                        <img src="${product.details.image}" alt="${product.details.name}" width="200">
+                        <p><a href="${product.url}">View Product</a></p>
+                    </div>
+                `;
+            }
+        }
+
+        setInterval(fetchData, 5000);
+        fetchData();
+    </script>
+</body>
+</html>
